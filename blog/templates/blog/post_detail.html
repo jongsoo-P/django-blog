@@ -13,6 +13,9 @@
   <div class="view-header">
     <h2>{{ post.title }}</h2>
     <div class="view-info">
+      {% if post.category.name != Null %}
+      <p>카테고리: {{ post.category.name }}</p>|
+      {% endif %}
       <p>작성자: 홍길동</p>|
       <p>작성일: 2023.04.24</p>|
       <p>조회수: 1020</p>
@@ -23,7 +26,7 @@
   </div>
 </div>
 <div class="btn-group">
-  <a href="./index.html" class="btn">목록</a>
+  <a href="{% url 'blog:list' %}" class="btn">목록</a>
   <a href="#" class="btn">수정</a>
   <button type="button" class="btn">삭제</button>
 </div>

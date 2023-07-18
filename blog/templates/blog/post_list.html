@@ -41,6 +41,7 @@
       <colgroup>
         <col style="width: 40px">
         <col style="width: 60px">
+        <col style="width: 140px">
         <col>
         <col style="width: 100px">
         <col style="width: 120px">
@@ -53,6 +54,7 @@
             <!-- <label for="all-article">페이지 전체 게시글 선택</label> -->
           </th>
           <th>번호</th>
+          <th>카테고리</th>
           <th>제목</th>
           <th>작성자</th>
           <th>작성일</th>
@@ -72,11 +74,12 @@
             <!-- <label for="check1">2번 게시글</label> -->
           </td>
           <td>{{ post.id }}</td>
+          <td>{{ post.category.name }}</td>
           <td>
             <a href="{% url 'blog:detail' pk=post.pk %}">{{ post.title }}</a>
           </td>
           <td>홍길동</td>
-          <td>{{ post.created_at }}</td>
+          <td>{{ post.created_at | date:'Y-m-d' }}</td>
           <td>999</td>
         </tr>
         {% endfor %}
@@ -101,7 +104,7 @@
       <!-- //페이지 -->
       <div class="btn-group">
         <button class="btn">선택삭제</button>
-        <a href="./write.html" class="btn">글쓰기</a>
+        <a href="{% url 'blog:write' %}" class="btn">글쓰기</a>
       </div>
     </div>
 {% endblock %}

@@ -9,3 +9,8 @@ class Post(models.Model):
     # 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    category = models.ForeignKey('Category',on_delete=models.SET_NULL,null=True,blank=True,default='Null')
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=10)

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+<link rel="stylesheet" href="{% static 'css/write.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- 글쓰기 페이지 -->
+<h2 class="main-title">글쓰기</h2>
+<p class="main-desc">내용을 입력 해주세요.</p>
+
+<form action="{% url 'blog:write' %}" method="post">
+  {% csrf_token %}
+  <table class="table write">
+    <colgroup>
+      <col style="width: 120px">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <th><label for="category">카테고리</label></th>
+        <td>
+          <select id="category" name="category">
+            <option value="" selected hidden>선택</option>
+            {% for category in categorys %}
+              <option value="{{ category.id }}">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <th><label for="title">제목</label></th>
+        <td><input type="text" id="title" name="title"></td>
+      </tr>
+      <tr>
+        <th><label for="content">내용</label></th>
+        <td>
+          <textarea id="content" name="content"></textarea>
+        </td>
+      </tr>
+          <tr>
+            <th><label for="board-file">파일첨부</label></th>
+            <td>
+              <input type="file" id="board-file">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-group">
+        <a href="{% url 'blog:list' %}" class="btn">목록</a>
+        <button type="reset" class="btn">초기화</button>
+        <button type="submit" class="btn">작성</button>
+      </div>
+    </form>
+{% endblock %}
