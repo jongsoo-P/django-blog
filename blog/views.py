@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import Post, Category
 from .forms import PostForm
@@ -7,7 +7,7 @@ from .forms import PostForm
 ### Post
 class Index(View):
 
-    def get(self,request):
+    def get(self, request):
         posts = Post.objects.all()
         context = {
             "posts": posts,
@@ -16,7 +16,7 @@ class Index(View):
     
 class DetailView(View):
 
-    def get(self,request,pk):
+    def get(self, request, pk):
         post = Post.objects.get(pk=pk)
         context = {
             "post": post,
@@ -26,22 +26,17 @@ class DetailView(View):
 
 class Write(View):
 
-    def get(self,request):
-        form = PostForm()
+    def get(self, request):
         categorys = Category.objects.all()
         context = {
-            'form': form,
             'categorys': categorys,
             "title": "Blog"
         }
         return render(request, 'blog/post_form.html', context)
     
-    def post(self,request):
+    def post(self, request):
         form = PostForm(request.POST)
-        print(form)
-        print(request.POST)
-        if form.is_valid():
-            
+        if form.is_valid():    
             post = form.save(commit=False)
             # post.writer = request.user
             post.save()
@@ -51,6 +46,33 @@ class Write(View):
             'form': form,
             'categorys': categorys,
         }
-        
         return render(request, 'blog/post_form.html', context)
+    
+
+class Update(View):
+
+    def get(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        categorys = Category.objects.all()
+        context = {
+            'post': post,
+            'categorys': categorys,
+        }
         
+        return render(request, 'blog/post_edit.html', context)
+    
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(request.POST)
+        if form.is_valid():    
+            post.title = form.cleaned_data['title']
+            post.content = form.cleaned_data['content']
+            post.category = form.cleaned_data['category']
+            post.save()
+            return redirect('blog:list')
+        categorys = Category.objects.all()
+        context = {
+            'form': form,
+            'categorys': categorys,
+        }
+        return render(request, 'blog/post_edit.html', context)
