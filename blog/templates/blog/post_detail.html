@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'css/view.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="main-title">글 조회</h2>
+
+
+<div class="view">
+  <div class="view-header">
+    <h2>{{ post.title }}</h2>
+    <div class="view-info">
+      <p>작성자: 홍길동</p>|
+      <p>작성일: 2023.04.24</p>|
+      <p>조회수: 1020</p>
+    </div>
+  </div>
+  <div class="view-content">
+    {{ post.content }}
+  </div>
+</div>
+<div class="btn-group">
+  <a href="./index.html" class="btn">목록</a>
+  <a href="#" class="btn">수정</a>
+  <button type="button" class="btn">삭제</button>
+</div>
+{% endblock %}
