@@ -34,3 +34,7 @@
 	color: royalblue;
 	text-decoration: underline;
 }
+
+form.delete-btn {
+	display: inline-block;
+}

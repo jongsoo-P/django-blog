@@ -76,3 +76,11 @@ class Update(View):
             'categorys': categorys,
         }
         return render(request, 'blog/post_edit.html', context)
+    
+
+class Delete(View):
+    
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        post.delete()
+        return redirect('blog:list')

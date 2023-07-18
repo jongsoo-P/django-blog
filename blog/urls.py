@@ -12,4 +12,6 @@ urlpatterns = [
     path("write/", views.Write.as_view(), name='write'),
     # 글 수정
     path("edit/<int:pk>/", views.Update.as_view(), name='edit'),
+    # 글 삭제
+    path("delete/<int:pk>/", views.Delete.as_view(), name='delete'),
 ]
