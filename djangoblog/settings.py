@@ -17,6 +17,8 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
+# Auth user
+AUTH_USER_MODEL = 'user.User'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -129,6 +132,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'blog', 'static', 'blog'),
+    os.path.join(BASE_DIR, 'user', 'static', 'user'),
 ]
 
 # Default primary key field type
