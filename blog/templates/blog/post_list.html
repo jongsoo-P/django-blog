@@ -40,20 +40,20 @@
   <!-- 게시판 리스트 -->
   <table class="table list">
     <colgroup>
-      <col style="width: 40px">
+      <!-- <col style="width: 40px"> -->
       <col style="width: 60px">
       <col style="width: 140px">
       <col>
-      <col style="width: 100px">
+      <col style="width: 150px">
       <col style="width: 120px">
       <col style="width: 100px">
     </colgroup>
     <thead>
       <tr>
-        <th>
+        <!-- <th>
           <input type="checkbox" id="all-article">
-          <!-- <label for="all-article">페이지 전체 게시글 선택</label> -->
-        </th>
+          <label for="all-article">페이지 전체 게시글 선택</label>
+        </th> -->
         <th>번호</th>
         <th>카테고리</th>
         <th>제목</th>
@@ -70,16 +70,16 @@
       <!-- 게시글이 있을때 -->
       {%for post in posts %}
         <tr>
-          <td>
+          <!-- <td>
             <input type="checkbox" id="check2">
-            <!-- <label for="check1">2번 게시글</label> -->
-          </td>
+            <label for="check1">2번 게시글</label>
+          </td> -->
           <td>{{ post.id }}</td>
           <td>{{ post.category.name }}</td>
           <td>
             <a href="{% url 'blog:detail' pk=post.pk %}">{{ post.title }}</a>
           </td>
-          <td>홍길동</td>
+          <td>{{ post.writer.email }}</td>
           <td>{{ post.created_at | date:'Y-m-d' }}</td>
           <td>999</td>
         </tr>
@@ -104,8 +104,10 @@
     </div>
     <!-- //페이지 -->
     <div class="btn-group">
-      <button class="btn">선택삭제</button>
-      <a href="{% url 'blog:write' %}" class="btn">글쓰기</a>
+      <!-- <button class="btn">선택삭제</button> -->
+      {% if request.user.is_authenticated == True %}
+        <a href="{% url 'blog:write' %}" class="btn">글쓰기</a>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

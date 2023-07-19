@@ -54,4 +54,10 @@ class Login(View):
             'title': 'User'
         }
         return render(request, 'user/user_login.html', context)
+    
 
+class Logout(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('blog:list')

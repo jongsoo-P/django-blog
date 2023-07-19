@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Post, Category
 from .forms import PostForm
 
@@ -20,14 +21,19 @@ class Index(View):
 class DetailView(View):
 
     def get(self, request, pk):
-        post = Post.objects.get(pk=pk)
+        try:
+            post = Post.objects.get(pk=pk)
+        except ObjectDoesNotExist as e:
+            return render(request, 'blog/post_404.html')
+        # except:
+        #     return redirect('blog:list')
         context = {
             "post": post,
         }
         return render(request, 'blog/post_detail.html', context)
     
 
-class Write(View):
+class Write(LoginRequiredMixin, View):
 
     def get(self, request):
         categorys = Category.objects.all()
@@ -52,7 +58,7 @@ class Write(View):
         return render(request, 'blog/post_form.html', context)
     
 
-class Update(View):
+class Update(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
