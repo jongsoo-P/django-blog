@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from .models import Post, Category
 from .forms import PostForm
+import math
 
 
 categorys = Category.objects.all()
@@ -11,9 +13,14 @@ categorys = Category.objects.all()
 class Index(View):
 
     def get(self, request):
-        posts = Post.objects.all().order_by('-created_at')
+        per_page = 2
+        page = request.GET.get('page', '1')
+        posts = Post.objects.order_by('-created_at')
+        paginator = Paginator(posts, per_page)
+        page_obj = paginator.get_page(page)
         context = {
-            "posts": posts,
+            "posts": page_obj,
+            "lastPage": math.ceil(page_obj.paginator.count/per_page),
             "categorys": categorys,
         }
         return render(request, 'blog/post_list.html', context)

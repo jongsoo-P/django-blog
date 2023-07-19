@@ -10,7 +10,7 @@
   <h2 class="main-title">게시판</h2>
 
   <div class="board-top">
-    <p class="main-desc"><strong>2개</strong>의 게시글이 있습니다.</p>
+    <p class="main-desc"><strong>{{ posts.paginator.count }}개</strong>의 게시글이 있습니다.</p>
 
     <div>
       <form id="search-form" class="search-form">
@@ -92,15 +92,23 @@
   <div class="board-bottom">
     <!-- 페이지 -->
     <div class="pagination">
-      <a href="#"><img src="{% static 'img/first.png' %}" alt="첫번째 페이지"></a>
-      <a href="#"><img src="{% static 'img/prev.png' %}" alt="이전 페이지"></a>
-      <a href="#" class="num active">1</a>
-      <a href="#" class="num">2</a>
-      <a href="#" class="num">3</a>
-      <a href="#" class="num">4</a>
-      <a href="#" class="num">5</a>
-      <a href="#"><img src="{% static 'img/next.png' %}" alt="다음 페이지"></a>
-      <a href="#"><img src="{% static 'img/last.png' %}" alt="마지막 페이지"></a>
+      <a href="?page=1"><img src="{% static 'img/first.png' %}" alt="첫번째 페이지"></a>
+      <a {% if posts.has_previous %}href="?page={{ posts.previous_page_number }}"{% endif %}>
+      <img src="{% static 'img/prev.png' %}" alt="이전 페이지"></a>
+      {% for page_number in posts.paginator.page_range %}
+      {% if page_number >= posts.number|add:-5 and page_number <= posts.number|add:5 %}
+      <a href="?page={{ page_number }}"
+      {% if page_number == posts.number %}
+      class="num active"
+      {% else %}
+      class="num"
+      {% endif %}
+      >{{ page_number }}</a>
+      {% endif %}
+      {% endfor %}
+      <a {% if posts.has_next %} href="?page={{ posts.next_page_number }}" {% endif %}>
+      <img src="{% static 'img/next.png' %}" alt="다음 페이지"></a>
+      <a href="?page={{ lastPage }}"><img src="{% static 'img/last.png' %}" alt="마지막 페이지"></a>
     </div>
     <!-- //페이지 -->
     <div class="btn-group">
