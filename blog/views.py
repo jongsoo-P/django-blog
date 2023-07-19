@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.db.models import Q
 from .models import Post, Category
 from .forms import PostForm
 
 
+categorys = Category.objects.all()
 ### Post
 class Index(View):
 
     def get(self, request):
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-created_at')
         context = {
             "posts": posts,
+            "categorys": categorys,
         }
         return render(request, 'blog/post_list.html', context)
     
@@ -84,3 +87,20 @@ class Delete(View):
         post = get_object_or_404(Post, pk=pk)
         post.delete()
         return redirect('blog:list')
+    
+
+class Search(View):
+
+    def get(self, request, tag):
+        tags = tag.split('&')
+        FILTER = {}
+        if tags[0]:
+            FILTER["category"] = int(tags[0])
+        if tags[1]:
+            FILTER["title__contains"] = tags[1]
+        posts = Post.objects.filter(**FILTER).order_by('-created_at')
+        context = {
+            "posts": posts,
+            "categorys": categorys
+        }
+        return render(request, 'blog/post_list.html', context)
