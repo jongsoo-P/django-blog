@@ -114,8 +114,10 @@
 
 - 게시글 조회
   - 작성자: 수정, 삭제 버튼 활성화
+  - 삭제 or 존재하지 않는 게시글 접근 페이지
 
 <img src="readme/게시글작성자.png" width="45%"> <img src="readme/게시글비작성자.png" width="45%">
+<img src="readme/게시글404.png" width="45%">
 
 - 게시글 수정
 
