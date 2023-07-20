@@ -1,43 +1,10 @@
-{% load i18n %}
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="ko-KR">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Blog</title>
-  <link rel="stylesheet" href="{% static 'css/common.css' %}">
-</head>
-
-<body>
-  <!-- header -->
-  <div class="header">
-    <h1><a href="index.html">Blog</a></h1>
-    <div class="header-click">
-      <!-- <a href="chat.html">채팅</a> -->
-      {% if request.user.is_authenticated == True %}
-      {{ request.user.email }}
-      {% else %}
-        <a href="{% url 'user:login' %}">로그인</a>
-        <a href="{% url 'user:register' %}">회원가입</a>
-      {% endif %}
-      {% if request.user.is_authenticated == True %}
-        <a href="{% url 'user:logout' %}">로그아웃</a>
-      {% endif%}
-    </div>
-  </div>
-  <!-- // header -->
-
-  <div class="main">
-    <a href="{% url 'blog:list' %}">블로그 입장하기</a>
-  </div>
-  {% block js %}
-  {% endblock %}
-  <!-- footer -->
-  <p class="footer">Copyright 2023. Chilli All rights reserved.</p>
-  <!-- //footer -->
-</body>
-
-</html>
+{% block static %}
+  <link rel="stylesheet" href="{% static 'css/table.css' %}">
+  <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+{% block content %}
+  <a href="{% url 'blog:list' %}">블로그 입장하기</a>
+{% endblock %}
