@@ -13,14 +13,21 @@ categorys = Category.objects.all()
 class Index(View):
 
     def get(self, request):
-        per_page = 2
+        per_page = 10
         page = request.GET.get('page', '1')
         posts = Post.objects.order_by('-created_at')
         paginator = Paginator(posts, per_page)
+        lastPage = math.ceil(paginator.count/per_page)
+        if(int(page) > lastPage):
+            page = '1'
         page_obj = paginator.get_page(page)
+        range_start = (int(page)-1)//5*5+1
+        page_range = range(range_start,range_start+5 if range_start+4 < lastPage else (lastPage+1 if lastPage > 1 else 2))
         context = {
+            "title": "Blog",
             "posts": page_obj,
-            "lastPage": math.ceil(page_obj.paginator.count/per_page),
+            "lastPage": lastPage,
+            "pageRange": page_range,
             "categorys": categorys,
         }
         return render(request, 'blog/post_list.html', context)
@@ -46,7 +53,7 @@ class Write(LoginRequiredMixin, View):
         categorys = Category.objects.all()
         context = {
             'categorys': categorys,
-            "title": "Blog"
+            "title": "글쓰기"
         }
         return render(request, 'blog/post_form.html', context)
     
@@ -54,11 +61,12 @@ class Write(LoginRequiredMixin, View):
         form = PostForm(request.POST)
         if form.is_valid():    
             post = form.save(commit=False)
-            # post.writer = request.user
+            post.writer = request.user
             post.save()
             return redirect('blog:list')
         categorys = Category.objects.all()
         context = {
+            "title": "글쓰기",
             'form': form,
             'categorys': categorys,
         }
@@ -71,6 +79,7 @@ class Update(LoginRequiredMixin, View):
         post = get_object_or_404(Post, pk=pk)
         categorys = Category.objects.all()
         context = {
+            "title": "글 수정",
             'post': post,
             'categorys': categorys,
         }
@@ -88,6 +97,7 @@ class Update(LoginRequiredMixin, View):
             return redirect('blog:list')
         categorys = Category.objects.all()
         context = {
+            "title": "글 수정",
             'form': form,
             'categorys': categorys,
         }
@@ -105,6 +115,8 @@ class Delete(View):
 class Search(View):
 
     def get(self, request, tag):
+        per_page = 10
+        page = request.GET.get('page', '1')
         tags = tag.split('&')
         FILTER = {}
         if tags[0]:
@@ -112,8 +124,18 @@ class Search(View):
         if tags[1]:
             FILTER["title__contains"] = tags[1]
         posts = Post.objects.filter(**FILTER).order_by('-created_at')
+        paginator = Paginator(posts, per_page)
+        lastPage = math.ceil(paginator.count/per_page)
+        if(int(page) > lastPage):
+            page = '1'
+        page_obj = paginator.get_page(page)
+        range_start = (int(page)-1)//5*5+1
+        page_range = range(range_start,range_start+5 if range_start+4 < lastPage else (lastPage+1 if lastPage > 1 else 2))
         context = {
-            "posts": posts,
+            "title": "Blog",
+            "posts": page_obj,
+            "lastPage": math.ceil(page_obj.paginator.count/per_page),
+            "pageRange": page_range,
             "categorys": categorys
         }
         return render(request, 'blog/post_list.html', context)
