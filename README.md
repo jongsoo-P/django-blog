@@ -89,7 +89,7 @@
 
 - 메인
 
-<img src="readme/메인.png" width="50%">
+<img src="readme/메인.gif" width="50%">
 
 - 회원가입
 
