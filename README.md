@@ -21,68 +21,19 @@
 │
 ├── manage.py
 ├── djangoblog
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── views.py
-│   └── wsgi.py
 ├── blog
 │   ├── static
 │   │   └── blog
 │   │       └── css
-│   │           ├── list.css
-│   │           ├── table.css
-│   │           ├── view.css
-│   │           └── write.css
-│   ├── templates
-│   │   └── blog
-│   │       ├── post_404.html
-│   │       ├── post_detail.html
-│   │       ├── post_edit.html
-│   │       ├── post_form.html
-│   │       └── post_list.html
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
+│   └── templates
+│       └── blog
 ├── user
 │   ├── static
-│   │   └── user
-│   │       └── css
-│   │           └── login-join.css
-│   ├── templates
-│   │   └── user
-│   │       ├── user_login.html
-│   │       └── user_register.html
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
+│   └── templates
 ├── static
 │   ├── css
-│   │   ├── chat.css
-│   │   └── common.css
 │   └── img
-│       ├── est.jpg
-│       ├── first.png
-│       ├── icon-search.png
-│       ├── icon-x.png
-│       ├── last.png
-│       ├── licat.png
-│       ├── next.png
-│       └── prev.png
 └── templates
-    ├── base.html
-    └── index.html
 ```
 
 ## 4. UI / 사용 예제
@@ -97,7 +48,7 @@
 
 - 로그인
 
-<img src="readme/로그인.gif" width="50%">
+<img src="readme/로그인gif.gif" width="50%">
 
 - 리스트
   - header 활성화 버튼
@@ -126,7 +77,7 @@
 - 검색
   - 카테고리, 제목 검색 가능
 
-<img src="readme/검색.gif" width="50%">
+<img src="readme/검색gif.gif" width="50%">
 
 ## 5. 데이터베이스 모델링
 
